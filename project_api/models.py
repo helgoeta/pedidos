@@ -53,3 +53,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+
+
+class Cliente(models.Model):
+    """Modelo que representa o terceiro"""
+    nome = models.CharField(max_length=200)
+    data_de_cadastro = models.DateTimeField(auto_now_add=True)
+    ultima_alteracao = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        ordering = ['nome']
