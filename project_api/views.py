@@ -64,3 +64,16 @@ def add_cliente(request):
         return Response(status=status.HTTP_201_CREATED)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def update_clientes(request, pk):
+    cliente = Cliente.objects.get(pk=pk)
+    data = ClienteSerializer(instance=cliente, data=request.data)
+
+    if data.is_valid():
+        data.save()
+        return Response(data.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+

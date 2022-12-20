@@ -10,4 +10,4 @@ class HelloSerializer(serializers.Serializer):
 class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = ('nome', 'data_de_cadastro', 'ultima_alteracao')
+        fields = ('id', 'nome', 'data_de_cadastro', 'ultima_alteracao')
