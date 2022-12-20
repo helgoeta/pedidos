@@ -2,12 +2,14 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from project_api import serializers
+from rest_framework import serializers
 from .models import Cliente
+from .serializers import ClienteSerializer, HelloSerializer
+
 
 class HelloApiView(APIView):
     """Test API View"""
-    serializer_class = serializers.HelloSerializer
+    serializer_class = HelloSerializer
 
     def get(self, request, format=None):
         """Returns a list of APIView features"""
@@ -37,14 +39,26 @@ class HelloApiView(APIView):
             )
 
 
+@api_view(['GET'])
+def view_clientes(request):
+
+    #checking for the parameters from the URL
+    clientes= Cliente.objects.all()
+    serializer = ClienteSerializer(clientes, many=True)
+    if clientes:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(['POST'])
 def add_cliente(request):
-    cliente = serializers.ClienteSerializer(data=request.data)
+    cliente = ClienteSerializer(data=request.data)
 
     # validating for already existing data
     if Cliente.objects.filter(**request.data).exists():
         raise serializers.ValidationError('Esse cliente já existe')
-    #TODO: ValidationError nothing working
+
     if cliente.is_valid():
         cliente.save()
         return Response(status=status.HTTP_201_CREATED)
