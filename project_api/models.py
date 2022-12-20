@@ -75,6 +75,7 @@ class Produto(models.Model):
     codigo = models.CharField(max_length=120)
     tabela_preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='Preço Unitário')
     multiplo = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    #TODO: Do not accept negative numbers in the fields tabela_preco and multiplo
     data_cadastro=models.DateTimeField(auto_now=True)
     ultima_alteracao = models.DateTimeField(auto_now=True)
 
