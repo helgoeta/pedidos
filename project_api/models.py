@@ -59,6 +59,23 @@ class Cliente(models.Model):
     """Modelo que representa o terceiro"""
     nome = models.CharField(max_length=200)
     data_de_cadastro = models.DateTimeField(auto_now_add=True)
+    #TODO: add field excluido in the future
+    ultima_alteracao = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        ordering = ['nome']
+
+
+class Produto(models.Model):
+    """Model que representa os produtos"""
+    nome = models.CharField(max_length=200)
+    codigo = models.CharField(max_length=120)
+    tabela_preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='Preço Unitário')
+    multiplo = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    data_cadastro=models.DateTimeField(auto_now=True)
     ultima_alteracao = models.DateTimeField(auto_now=True)
 
     def __str__(self):
