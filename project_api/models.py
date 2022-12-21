@@ -88,7 +88,7 @@ class Produto(models.Model):
 
 class Pedido(models.Model):
     """Model que representa os pedidos"""
-    cliente_id = models.ForeignKey('Cliente', on_delete=models.SET_NULL, null=True, verbose_name='Razão Social')
+    cliente = models.ForeignKey('Cliente', on_delete=models.SET_NULL, null=True, verbose_name='Razão Social')
     #TODO: Maybe add the field number in the future
     total = models.DecimalField(max_digits=20, decimal_places=2)
     #TODO: Do not accept negative numbers in the field total
