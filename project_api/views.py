@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
-from .models import Cliente, Produto
-from .serializers import ClienteSerializer, ProdutoSerializer, HelloSerializer
+from .models import Cliente, Produto, Pedido
+from .serializers import ClienteSerializer, ProdutoSerializer, PedidoSerializer, HelloSerializer
 
 
 class HelloApiView(APIView):
@@ -109,6 +109,41 @@ def add_produto(request):
 def update_produto(request, pk):
     produto = Produto.objects.get(pk=pk)
     data = ProdutoSerializer(instance=produto, data=request.data)
+
+    if data.is_valid():
+        data.save()
+        return Response(data.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+#PEDIDOS
+@api_view(['GET'])
+def view_pedidos(request):
+
+    #checking for the parameters from the URL
+    pedidos= Pedido.objects.all()
+    serializer = PedidoSerializer(pedidos, many=True)
+    if pedidos:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def add_pedido(request):
+    pedido = PedidoSerializer(data=request.data)
+
+    if pedido.is_valid():
+        pedido.save()
+        return Response(status=status.HTTP_201_CREATED)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def update_pedido(request, pk):
+    pedido = Pedido.objects.get(pk=pk)
+    data = PedidoSerializer(instance=pedido, data=request.data)
 
     if data.is_valid():
         data.save()

@@ -84,3 +84,19 @@ class Produto(models.Model):
 
     class Meta:
         ordering = ['nome']
+
+
+class Pedido(models.Model):
+    """Model que representa os pedidos"""
+    cliente_id = models.ForeignKey('Cliente', on_delete=models.SET_NULL, null=True, verbose_name='Razão Social')
+    #TODO: Maybe add the field number in the future
+    total = models.DecimalField(max_digits=20, decimal_places=2)
+    #TODO: Do not accept negative numbers in the field total
+    data_criacao = models.DateTimeField(auto_now=True)
+    data_emissao = models.DateField(auto_now=True)
+    info_adicionais = models.CharField(max_length=500, blank=True, null=True, verbose_name='Informaçõs Adicionais')
+    condicao_pagamento = models.CharField(max_length=120)
+    ultima_alteracao = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.razao_social
