@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cliente, Produto, Pedido
+from .models import Cliente, Produto, Pedido, ItemPedido
 
 
 class HelloSerializer(serializers.Serializer):
@@ -19,7 +19,15 @@ class ProdutoSerializer(serializers.ModelSerializer):
         fields = ('id', 'nome', 'codigo', 'tabela_preco', 'multiplo', 'data_cadastro', 'ultima_alteracao')
 
 
+class ItemPedidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemPedido
+        fields = ['id', 'produto', 'quantidade', 'total_item', 'preco_tabela', 'preco_liquido', 'ultima_alteracao']
+
+
 class PedidoSerializer(serializers.ModelSerializer):
+    itens = ItemPedidoSerializer(many=True)
+
     class Meta:
         model = Pedido
-        fields = ('id', 'cliente_id', 'total', 'data_criacao', 'data_emissao', 'info_adicionais', 'condicao_pagamento', 'ultima_alteracao')
+        fields = '__all__'

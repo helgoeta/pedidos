@@ -121,7 +121,7 @@ def update_produto(request, pk):
 def view_pedidos(request):
 
     #checking for the parameters from the URL
-    pedidos= Pedido.objects.all()
+    pedidos = Pedido.objects.prefetch_related('itens')
     serializer = PedidoSerializer(pedidos, many=True)
     if pedidos:
         return Response(serializer.data)

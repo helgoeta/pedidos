@@ -88,7 +88,7 @@ class Produto(models.Model):
 
 class Pedido(models.Model):
     """Model que representa os pedidos"""
-    cliente = models.ForeignKey('Cliente', on_delete=models.SET_NULL, null=True, verbose_name='Razão Social')
+    cliente = models.ForeignKey('Cliente', on_delete=models.SET_NULL, null=True)
     #TODO: Maybe add the field number in the future
     total = models.DecimalField(max_digits=20, decimal_places=2)
     #TODO: Do not accept negative numbers in the field total
@@ -100,3 +100,12 @@ class Pedido(models.Model):
 
     def __str__(self):
         return self.razao_social
+
+class ItemPedido(models.Model):
+    produto = models.ForeignKey('Produto', on_delete=models.SET_NULL, null=True)
+    pedido = models.ForeignKey('Pedido', on_delete=models.SET_NULL, null=True, related_name='itens')
+    quantidade = models.DecimalField(max_digits=20, decimal_places=2)
+    total_item = models.DecimalField(max_digits=20, decimal_places=2)
+    preco_tabela = models.DecimalField(max_digits=20, decimal_places=2)
+    preco_liquido = models.DecimalField(max_digits=20, decimal_places=2)
+    ultima_alteracao = models.DateTimeField(auto_now=True)
